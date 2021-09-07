@@ -111,16 +111,24 @@ def test():
         accounting_api = AccountingApi(api_client)
 
         invoice_id = request.form['input_invoice_id']
-
+        
         invoice = accounting_api.get_invoice(
-            xero_tenant_id, 
+            xero_tenant_id,
             invoice_id
         )
-        code = serialize_model(invoice)
+
+        amount_due = "Invoice Amount due is {} ".format(
+            getvalue(invoice, "invoices.0.amount_due", "")
+        )
+        amount_paid = "Invoice Amount Paid is {} ".format(
+            getvalue(invoice, "invoices.0.amount_paid", "")
+        )
+
+        json = serialize_model(invoice)
         sub_title = "Invoice Requested"
 
         return render_template(
-            "code.html", title="Custom Invoice", code=code, sub_title=sub_title
+            "code.html", title="Custom Invoice", code=json, sub_title=sub_title, amount_due=amount_due, amount_paid=amount_paid
         )
     #if page called from navbar, initial open
     return render_template("test.html", title="Home | GET Page")
@@ -132,7 +140,7 @@ def get_invoices():
     accounting_api = AccountingApi(api_client)
 
     invoices = accounting_api.get_invoices(
-        xero_tenant_id, statuses=["DRAFT", "SUBMITTED"]
+        xero_tenant_id
     )
     code = serialize_model(invoices)
     sub_title = "Total invoices found: {}".format(len(invoices.invoices))
