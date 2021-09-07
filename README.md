@@ -1,9 +1,8 @@
+Modifications have been made to Xero's starter application for a university assignment, final presentation for Xero Learn Team
+
 # xero-python-oauth-starter
 
-This is a starter app with the code to perform OAuth 2.0 authentication
-
-You'll be able to connect to a Xero Organisation and make real API calls - we recommend you connect to the Demo company.
-Please use your Demo Company organisation for your testing. 
+Please use your Demo Company organisation for testing. 
 [Here](https://central.xero.com/s/article/Use-the-demo-company) is how to turn it on.
 
 ## Getting Started
