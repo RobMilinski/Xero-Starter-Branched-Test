@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <h2>{{ title }}</h2>
+        {% if sub_title %}<h3>{{ sub_title }}</h3>{% endif %}
+
+        <table style="width:100%">
+            <tr>
+                <td>Amount Due</td>
+                <td>Amount Paid</td>
+                <td>Due Date</td>
+                <td>Paid Date</td>
+                <td>Invoice ID</td>
+                <td>Invoice Number</td>
+                <td>Status</td>
+                <td>Sub Total</td>
+                <td>Tax</td>
+                <td>Total</td>
+            </tr>
+            <tr>
+                <td>{{ amount_due }}</td>
+                <td>{{ amount_paid }}</td>
+                <td>{{ due_date }}</td>
+                <td>{{ paid_date }}</td>
+                <td>{{ invoice_id }}</td>
+                <td>{{ invoice_number }}</td>
+                <td>{{ status }}</td>
+                <td>{{ sub_total }}</td>
+                <td>{{ total_tax }}</td>
+                <td>{{ total }}</td>
+            </tr>
+        </table>
+
+        <pre class="prettyprint"><code class="language-javascript">{{ code }}</code></pre>
+    </div>
+{% endblock %}

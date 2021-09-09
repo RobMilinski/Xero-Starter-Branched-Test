@@ -5,8 +5,16 @@
 <form method="post">
     <div class="form-group">
         <div class="form-floating">
-            <textarea class="form-control" placeholder="Insert Invoice ID" id="floatingTextarea" style="height: 100px" name="input_invoice_id" required></textarea>
+            <textarea class="form-control" placeholder="Insert Invoice ID" id="floatingTextarea" style="height: 100px" name="input_invoice_id"></textarea>
             <label for="floatingTextarea">Invoice ID</label>
+        </div>
+        <div class="form-group"><!-- predefined modules available for selection -->
+            <label for="moduleselectbox">Select a city from the list</label>
+            <select multiple="" class="form-select" id="moduleselectbox" name="moduleselectbox">
+                <option value='55181e42-eb6f-4cd2-bd0a-58083983c3c6'>Module 6: Invoicing</option>
+                <option value='7be9956d-5316-4f6b-a66a-d355b3f159b2'>Module 7: Invoicing</option>
+                <option value='94a6c052-bfbc-4015-b50b-5d67b8ced945'>Module 8: Invoicing</option>
+            </select>
         </div>
         <br><input type="submit" value="Submit" class="btn btn-secondary">
     </div>

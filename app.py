@@ -110,25 +110,36 @@ def test():
         xero_tenant_id = get_xero_tenant_id()
         accounting_api = AccountingApi(api_client)
 
-        invoice_id = request.form['input_invoice_id']
+        if request.form['input_invoice_id'] != '':
+            invoice_id = request.form['input_invoice_id']
+        elif request.form['moduleselectbox'] != '':
+            invoice_id = request.form['moduleselectbox']
         
         invoice = accounting_api.get_invoice(
             xero_tenant_id,
             invoice_id
         )
-
-        amount_due = "Invoice Amount due is {} ".format(
-            getvalue(invoice, "invoices.0.amount_due", "")
-        )
-        amount_paid = "Invoice Amount Paid is {} ".format(
-            getvalue(invoice, "invoices.0.amount_paid", "")
-        )
-
         json = serialize_model(invoice)
+
+        amount_due = getvalue(invoice, "invoices.0.amount_due", "")
+        amount_paid = getvalue(invoice, "invoices.0.amount_paid", "")
+        due_date = getvalue(invoice, "invoices.0.due_date", "")
+        paid_date = getvalue(invoice, "invoices.0.fully_paid_on_date", "")
+        invoice_id = getvalue(invoice, "invoices.0.invoice_id", "")
+        invoice_number = getvalue(invoice, "invoices.0.invoice_number", "")
+        status = getvalue(invoice, "invoices.0.status", "")
+        sub_total = getvalue(invoice, "invoices.0.sub_total", "")
+        total_tax = getvalue(invoice, "invoices.0.total_tax", "")
+        total = getvalue(invoice, "invoices.0.total", "")
+
+
         sub_title = "Invoice Requested"
 
         return render_template(
-            "code.html", title="Custom Invoice", code=json, sub_title=sub_title, amount_due=amount_due, amount_paid=amount_paid
+            "invoice.html", title="Custom Invoice", code=json, sub_title=sub_title,
+            amount_due=amount_due, amount_paid=amount_paid, due_date=due_date,
+            paid_date=paid_date, invoice_id=invoice_id, invoice_number=invoice_number,
+            status=status, sub_total=sub_total, total_tax=total_tax, total=total,
         )
     #if page called from navbar, initial open
     return render_template("test.html", title="Home | GET Page")
