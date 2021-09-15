@@ -60,12 +60,34 @@
             line-height: 24px;
             border-bottom: 1px solid rgba(0,10,30,0.2);
         }
+        .marking_box {
+            border: 2px solid black;
+            padding: 25px;
+            max-width: 426px;
+        }
+        .feedback_box {
+            max-width: 428px;
+            position: relative;
+            font-size: 14px;
+            border-radius: 12px;
+        }
+        #student_result_input {
+            max-width: 100px;
+            /* text-align: center; */
+            margin-left: 50px;
+        }
+        #student_mark_input {
+            max-width: 40px;
+            text-align: center;
+            margin-left: 50px;
+        }
     </style>
 </head>
 
+<!-- XERO LEARN MODULES TAB -->
 <div class="header">
     <div class="header_text">
-        <h2>🎓 Get to know Xero</h2>
+        <h2>&#127891; Get to know Xero</h2>
     </div>
 </div>
 <div class="tabs">
@@ -100,7 +122,7 @@
             </p>
         </div>
         <div class="modules_contents">
-            <h2>Invoicing</h2>
+            <h2>6️⃣ Invoicing</h2>
         </div>
         <div class="modules_contents">
             <p>
@@ -124,28 +146,163 @@
                 Using the date <b>10 Feb 2021</b>, create and approve the <b>sales invoice</b>. Payment 
                 is due <b>7 days</b> from job completion.
             </p>
+            <p>
+                ⚡️ <b>Activity 6.1</b>
+            </p>
+            <ol>
+                <li>From the Dashboard, click on the <b>New sales invoice</b> button.</li>
+                <li>Complete the invoice details as follows.</li>
+                <li><b>Customer:</b> Bayside Club. Select <b>10 Feb 2021</b> as the date and <b>+7</b> in the due date to create a due date of 17 Feb 2021</li>
+                <li>Leave the invoice number as the default.</li>
+                <li>Populate the <b>descriptions</b>, <b>quantities</b>, and <b>unit price</b> for the Silver light fittings and callout fee lines</li>
+                <li><i>(leave the <b>Item</b> cell blank, and exclude the delivery fee line. We will cover this in the next step as you setup an inventory item).</i></li>
+                <li>Don't forget to record a <b>20% discount</b> against the callout fee.</li>
+                <li>Code to the accounts as follows:</li>
+                <li>Silver Light Fittings - <b>Electrical Sales (201)</b></li>
+                <li>Callout Fee - <b>Callout Fees (208)</b></li>
+            </ol>
+            <p>
+                For the delivery fee, we will <b>create an untracked inventory item</b>, as this is a charge that we include on most invoices.
+            </p>
+            <p>
+                ⚡️ <b>Activity 6.2</b>
+            </p>
+            <ol>
+                <li>On the third Invoice line, click into the <b>Item</b> field and select <b>+ New Item</b>.</li>
+                <li><b>Item Code:</b> Del Fee</li>
+                <li><b>Item Name:</b> Delivery Fee</li>
+                <li>Leave <b>I purchase this item</b> unticked.</li>
+                <li>We'll populate the <b>I sell this item</b> section with the following details:</li>
+                <li><b>Unit Price:</b> $35 (this is a standard charge)</li>
+                <li><b>Sales Account:</b> Delivery Fees (Code 209)</li>
+                <li><b>Tax Rate:</b> leave as the default 'tax rate = No'</li>
+                <li><b>Sales Description</b> (this is what will appear on your invoices): Delivery Fee</li>
+                <li>Leave <b>I track this item</b> unticked.</li>
+                <li>Select <b>Save</b></li>
+                <li>Complete line 3 of the invoice for the Delivery Fee.</li>
+            </ol>
+            <ul>
+                <li><i>Delivery Fee - <b>Delivery Fee (209)</b></i></li>
+            </ul>
+            <p>
+                ✅ Great work
+                <br>
+                📘 Learn more about Invoicing in Xero
+            </p>
         </div>
     </div>
     
-
+<!-- MARKING & FEEDBACK TAB -->
     <input type="radio" id="feedback_tab" name="mytabs">
     <label class="tab_heading" for="feedback_tab"><h2>Results & Feedback</h2></label>
     <div class="tab_contents">
-        <form method="post">
-            <div class="form-group">
+        <form method="POST">
+            <label for="moduleselectbox">Select a Xero Learn module:</label>
+            <input list="modules_list">
+            <datalist id="modules_list">
+                <option value="Module 1: Overview of the Xero Platform">
+                <option value="Module 2: Xero Electrical">
+                <option value="Module 3: Changing Organisational Details">
+                <option value="Module 4: Chart of Accounts">
+                <option value="Module 5: The Xero Dashboard">
+                <option value="Module 6: Invoicing">
+                <option value="Module 7: Recording Receipts and Payments...">
+                <option value="Module 8: Cash Coding">
+                <option value="Module 9: Part Payments">
+                <option value="Module 10: Prepayments">
+            </datalist>
+            <button>🡆</button>
+        </form>
+        <form method="POST">        <!-- This is more likely a GET request as this area will display the invoice data  -->
+            <div class="marking_box">
                 <div class="form-floating">
                     <textarea class="form-control" placeholder="Insert Invoice ID" id="floatingTextarea" style="height: 100px" name="input_invoice_id"></textarea>
                     <label for="floatingTextarea">Invoice ID</label>
                 </div>
-                <div class="form-group"><!-- predefined modules available for selection -->
-                    <label for="moduleselectbox">Select a city from the list</label>
+                <!-- <div class="form-group">               predefined modules available for selection
                     <select multiple="" class="form-select" id="moduleselectbox" name="moduleselectbox">
                         <option value='55181e42-eb6f-4cd2-bd0a-58083983c3c6'>Module 6: Invoicing</option>
                         <option value='7be9956d-5316-4f6b-a66a-d355b3f159b2'>Module 7: Invoicing</option>
                         <option value='94a6c052-bfbc-4015-b50b-5d67b8ced945'>Module 8: Invoicing</option>
                     </select>
-                </div>
+                </div> -->
                 <br><input type="submit" value="Submit" class="btn btn-secondary">
+                <h3>
+                    <u>Activity 6.1</u>
+                </h3>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Your Answer</th>
+                        <th>Grade</th>
+                    </tr>
+                    <tr>
+                        <td>Result 1</td>
+                        <td><input type="text" id="student_result_input" name="Result_1_result" value="$49.99" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_1_mark" value="5" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Result 2</td>
+                        <td><input type="text" id="student_result_input" name="Result_2_result" value="$20" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_2_mark" value="2" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Result 3</td>
+                        <td><input type="text" id="student_result_input" name="Result_3_result" value="30" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_3_mark" value="5" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Result 4</td>
+                        <td><input type="text" id="student_result_input" name="Result_4_result" value="$34.00" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_4_mark" value="4" readonly></td>
+                    </tr>
+                </table>
+                <h3>
+                    <u>Activity 6.2</u>
+                </h3>
+                <table>
+                    <tr>
+                        <td>Result 1</td>
+                        <td><input type="text" id="student_result_input" name="Result_1_result" value="$49.99" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_1_mark" value="5" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Result 2</td>
+                        <td><input type="text" id="student_result_input" name="Result_2_result" value="$20" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_2_mark" value="2" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Result 3</td>
+                        <td><input type="text" id="student_result_input" name="Result_3_result" value="30" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_3_mark" value="5" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Result 4</td>
+                        <td><input type="text" id="student_result_input" name="Result_4_result" value="$34.00" readonly></td>
+                        <td><input type="text" id="student_mark_input" name="Result_4_mark" value="4" readonly></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th>Total Marks: </th>
+                        <td></td>
+                    </tr>
+                </table>
+                <br>
+                <h3>
+                    <u>Educator Feedback</u>
+                </h3>
+                <!-- Text in the Feedback box is just a placeholder at the moment, it will be filled with the appropriate 
+                    pre-set feedback based on the student's marks -->
+                <dialog open class="feedback_box" readonly>
+                    <b>Result 1:</b> Great job! No feedback needed.
+                    <br>
+                    <b>Result 2:</b> This one wasn't quite right. Remember to add in 'x' and consider 'y'.
+                    <br>
+                    <b>Result 3:</b> Great job! No feedback needed.
+                    <br>
+                    <b>Result 4:</b> You're almost there! Double check the value you've written here.
+                </dialog>
             </div>
         </form>
     </div>
