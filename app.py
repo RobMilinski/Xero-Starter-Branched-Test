@@ -3,10 +3,12 @@ import os
 from functools import wraps
 from io import BytesIO
 from logging.config import dictConfig
+from urllib.parse import urlencode
 
 from flask import Flask, url_for, render_template, session, redirect, json, send_file
 from flask_oauthlib.contrib.client import OAuth, OAuth2Application
 from flask_session import Session
+from xero_python import accounting
 from xero_python.accounting import AccountingApi, ContactPerson, Contact, Contacts
 from xero_python.api_client import ApiClient, serialize
 from xero_python.api_client.configuration import Configuration
@@ -143,6 +145,30 @@ def test():
         )
     #if page called from navbar, initial open
     return render_template("test.html", title="Home | GET Page")
+
+@app.route("/educator_view", methods=['GET', 'POST'])
+@xero_token_required
+def educator_view():
+    xero_access = dict(obtain_xero_oauth2_token() or {})
+
+    if request.method == 'POST':
+        xero_tenant_id = get_xero_tenant_id()
+        accounting_api = AccountingApi(api_client)
+
+        invoice_id = request.form['input_invoice_id']
+
+        invoice = accounting_api.get_invoice(
+            xero_tenant_id,
+            invoice_id
+        )
+        code = serialize_model(invoice)
+        sub_title = "Invoice Requested" 
+
+        return render_template(
+            "educator_view.html", title="Educator View", code=code, sub_title=sub_title
+        )
+    return render_template("educator_view.html", title="Educator View | Xero Learn")
+
 
 @app.route("/invoices")
 @xero_token_required

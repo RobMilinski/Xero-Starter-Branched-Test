@@ -198,19 +198,19 @@
     <div class="tab_contents">
         <form method="POST">
             <label for="moduleselectbox">Select a Xero Learn module:</label>
-            <input list="modules_list">
-            <datalist id="modules_list">
-                <option value="Module 1: Overview of the Xero Platform">
-                <option value="Module 2: Xero Electrical">
-                <option value="Module 3: Changing Organisational Details">
-                <option value="Module 4: Chart of Accounts">
-                <option value="Module 5: The Xero Dashboard">
-                <option value="Module 6: Invoicing">
-                <option value="Module 7: Recording Receipts and Payments...">
-                <option value="Module 8: Cash Coding">
-                <option value="Module 9: Part Payments">
-                <option value="Module 10: Prepayments">
-            </datalist>
+            <input list="modules_list" name="moduleselectbox">
+                <datalist id="modules_list" name="moduleselectbox">
+                    <option value="Module 1: Overview of the Xero Platform">
+                    <option value="Module 2: Xero Electrical">
+                    <option value="Module 3: Changing Organisational Details">
+                    <option value="Module 4: Chart of Accounts">
+                    <option value="Module 5: The Xero Dashboard">
+                    <option value="Module 6: Invoicing">
+                    <option value="Module 7: Recording Receipts and Payments...">
+                    <option value="Module 8: Cash Coding">
+                    <option value="Module 9: Part Payments">
+                    <option value="Module 10: Prepayments">
+                </datalist>
             <button>🡆</button>
         </form>
         <form method="POST">        <!-- This is more likely a GET request as this area will display the invoice data  -->
