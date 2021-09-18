@@ -124,10 +124,17 @@ def test():
 
         amount_due = getvalue(invoice, "invoices.0.amount_due", "")
         amount_paid = getvalue(invoice, "invoices.0.amount_paid", "")
+        contact_name_first = getvalue(invoice, "invoices.0.contact.first_name", "")
+        contact_email = getvalue(invoice, "invoices.0.contact.email_address", "")
+        contact_name_last = getvalue(invoice, "invoices.0.contact.last_name", "")
         due_date = getvalue(invoice, "invoices.0.due_date", "")
         paid_date = getvalue(invoice, "invoices.0.fully_paid_on_date", "")
         invoice_id = getvalue(invoice, "invoices.0.invoice_id", "")
         invoice_number = getvalue(invoice, "invoices.0.invoice_number", "")
+        line_item_0_description = getvalue(invoice, "invoices.0.line_items.0.description", "")
+        line_item_0_line_amount = getvalue(invoice, "invoices.0.line_items.0.line_amount", "")
+        line_item_0_quantity = getvalue(invoice, "invoices.0.line_items.0.quantity", "")
+        line_item_0_unit_amount = getvalue(invoice, "invoices.0.line_items.0.unit_amount", "")
         status = getvalue(invoice, "invoices.0.status", "")
         sub_total = getvalue(invoice, "invoices.0.sub_total", "")
         total_tax = getvalue(invoice, "invoices.0.total_tax", "")
@@ -137,8 +144,11 @@ def test():
 
         return render_template(
             "invoice.html", title="Home | POST Page", code=json, sub_title=sub_title,
-            amount_due=amount_due, amount_paid=amount_paid, due_date=due_date,
-            paid_date=paid_date, invoice_id=invoice_id, invoice_number=invoice_number,
+            amount_due=amount_due, amount_paid=amount_paid, 
+            contact_name_first=contact_name_first, contact_email=contact_email, contact_name_last=contact_name_last, 
+            due_date=due_date, paid_date=paid_date, 
+            invoice_id=invoice_id, invoice_number=invoice_number,
+            line_item_0_description=line_item_0_description, line_item_0_line_amount=line_item_0_line_amount, line_item_0_quantity=line_item_0_quantity, line_item_0_unit_amount=line_item_0_unit_amount,
             status=status, sub_total=sub_total, total_tax=total_tax, total=total,
         )
         

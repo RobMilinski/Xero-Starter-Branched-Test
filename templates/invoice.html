@@ -9,26 +9,56 @@
             <tr>
                 <td>Amount Due</td>
                 <td>Amount Paid</td>
+                <td>Contact First Name</td>
+                <td>Contact Email</td>
+                <td>Contact Last Name</td>
                 <td>Due Date</td>
                 <td>Paid Date</td>
                 <td>Invoice ID</td>
                 <td>Invoice Number</td>
+            </tr>
+            <tr>
+                <td>{{ amount_due }}</td>
+                <td>{{ amount_paid }}</td>
+                <td>{{ contact_name_first }}</td>
+                <td>{{ contact_email }}</td>
+                <td>{{ contact_name_last }}</td>
+                <td>{{ due_date }}</td>
+                <td>{{ paid_date }}</td>
+                <td>{{ invoice_id }}</td>
+                <td>{{ invoice_number }}</td>
+            </tr>
+            <tr>
+                <td>Line Item 0 Description</td>
+                <td>Line Item 0 Line Amount</td>
+                <td>Line Item 0 Quantity</td>
+                <td>Line Item 0 Unit Amount</td>
                 <td>Status</td>
                 <td>Sub Total</td>
                 <td>Tax</td>
                 <td>Total</td>
             </tr>
             <tr>
-                <td>{{ amount_due }}</td>
-                <td>{{ amount_paid }}</td>
-                <td>{{ due_date }}</td>
-                <td>{{ paid_date }}</td>
-                <td>{{ invoice_id }}</td>
-                <td>{{ invoice_number }}</td>
+                <td>{{ line_item_0_description }}</td>
+                <td>{{ line_item_0_line_amount }}</td>
+                <td>{{ line_item_0_quantity }}</td>
+                <td>{{ line_item_0_unit_amount }}</td>
                 <td>{{ status }}</td>
                 <td>{{ sub_total }}</td>
                 <td>{{ total_tax }}</td>
                 <td>{{ total }}</td>
+            </tr>
+            <tr>
+                <td>Line Item 1 Description</td>
+                <td>Line Item 1 Line Amount</td>
+                <td>Line Item 1 Quantity</td>
+                <td>Line Item 1 Unit Amount</td>
+            </tr>
+            <tr>
+                <td>{{ line_item_1_description }}</td>
+                <td>{{ line_item_1_line_amount }}</td>
+                <td>{{ line_item_1_quantity }}</td>
+                <td>{{ line_item_1_unit_amount }}</td>
             </tr>
         </table>
 
