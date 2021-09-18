@@ -4,8 +4,9 @@ from functools import wraps
 from io import BytesIO
 from logging.config import dictConfig
 from urllib.parse import urlencode
+import datetime
 
-from flask import Flask, url_for, render_template, session, redirect, json, send_file
+from flask import Flask, url_for, render_template, session, redirect, json, send_file, request
 from flask_oauthlib.contrib.client import OAuth, OAuth2Application
 from flask_session import Session
 from xero_python import accounting
@@ -152,23 +153,29 @@ def educator_view():
     xero_access = dict(obtain_xero_oauth2_token() or {})
 
     if request.method == 'POST':
-        xero_tenant_id = get_xero_tenant_id()
-        accounting_api = AccountingApi(api_client)
+        if request.form['module_select_box'] == "":
+            return render_template("educator_view.html", title="Educator View | Xero Learn")
+        elif request.form['module_select_box'] == "Module 6: Invoicing":
+            display = 1
+            return render_template("educator_view.html", title="Educator View | Xero Learn")
+    
+    # if request.method == 'POST':
+    #     xero_tenant_id = get_xero_tenant_id()
+    #     accounting_api = AccountingApi(api_client)
 
-        invoice_id = request.form['input_invoice_id']
+    #     invoice_number = int(request.form['invoice_number_search'])
 
-        invoice = accounting_api.get_invoice(
-            xero_tenant_id,
-            invoice_id
-        )
-        code = serialize_model(invoice)
-        sub_title = "Invoice Requested" 
+    #     invoice = accounting_api.get_invoice(
+    #         xero_tenant_id,
+    #         invoice_number
+    #     )
+    #     code = serialize_model(invoice)
+    #     sub_title = "Invoice Requested" 
 
-        return render_template(
-            "educator_view.html", title="Educator View", code=code, sub_title=sub_title
-        )
+    #     return render_template(
+    #         "educator_view.html", title="Educator View", code=code, sub_title=sub_title
+    #     )
     return render_template("educator_view.html", title="Educator View | Xero Learn")
-
 
 @app.route("/invoices")
 @xero_token_required
