@@ -112,25 +112,7 @@ def test():
         accounting_api = AccountingApi(api_client)
 
         if request.form['input_invoice_id'] != '':
-            #user_invoice_number = request.form['input_invoice_id']
-
-            invoices = accounting_api.get_invoices(
-                xero_tenant_id
-            )
-
-        result = type(invoices)
-        invoices_dict = invoices['invoices']
-
-        json = serialize_model(invoices)
-        sub_title = "Requested Invoices with ID.."
-
-        return render_template(
-            "code.html", title="Invoices", code=invoices, sub_title=sub_title
-        )
-
-        '''
-        if request.form['input_invoice_id'] != '':
-            invoice_id = request.form['input_invoice_id']
+                invoice_id = request.form['input_invoice_id']
         elif request.form['moduleselectbox'] != '':
             invoice_id = request.form['moduleselectbox']
         
@@ -159,25 +141,39 @@ def test():
             paid_date=paid_date, invoice_id=invoice_id, invoice_number=invoice_number,
             status=status, sub_total=sub_total, total_tax=total_tax, total=total,
         )
-        '''
+        
     #if page called from navbar, initial open
     return render_template("test.html", title="Home | GET Page")
 
-@app.route("/invoices")
+@app.route("/educator_view", methods=['GET', 'POST'])
 @xero_token_required
-def get_invoices():
-    xero_tenant_id = get_xero_tenant_id()
-    accounting_api = AccountingApi(api_client)
+def educator_view():
+    xero_access = dict(obtain_xero_oauth2_token() or {})
 
-    invoices = accounting_api.get_invoices(
-        xero_tenant_id
-    )
-    code = serialize_model(invoices)
-    sub_title = "Total invoices found: {}".format(len(invoices.invoices))
+    if request.method == 'POST':
+        if request.form['module_select_box'] == "":
+            return render_template("educator_view.html", title="Educator View | Xero Learn")
+        elif request.form['module_select_box'] == "Module 6: Invoicing":
+            display = 1
+            return render_template("educator_view.html", title="Educator View | Xero Learn")
+    
+    # if request.method == 'POST':
+    #     xero_tenant_id = get_xero_tenant_id()
+    #     accounting_api = AccountingApi(api_client)
 
-    return render_template(
-        "code.html", title="Invoices", code=code, sub_title=sub_title
-    )
+    #     invoice_number = int(request.form['invoice_number_search'])
+
+    #     invoice = accounting_api.get_invoice(
+    #         xero_tenant_id,
+    #         invoice_number
+    #     )
+    #     code = serialize_model(invoice)
+    #     sub_title = "Invoice Requested" 
+
+    #     return render_template(
+    #         "educator_view.html", title="Educator View", code=code, sub_title=sub_title
+    #     )
+    return render_template("educator_view.html", title="Educator View | Xero Learn")
 
 @app.route("/login")
 def login():

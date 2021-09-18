@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <style>
+        body {
+            background-color: #ccc;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #404756
+        }
+        .logo {
+            display: flex;
+            justify-content: center;
+        }
+        .logo img {
+            max-width: 300px;
+        }
+        .module_select_box {
+            display: flex;
+            justify-content: center;
+        }
+        .module_select_box input {
+            font-size: 24px;
+            line-height: 36px;
+            width: 500px;
+        }
+        .result_boxes {
+            display: flex;
+            justify-content: space-around;
+        }
+        .student_result_box {
+            border: 3px solid black;
+            width: 600px;
+        }
+        .invoice_number_search {
+            display: flex;
+        }
+        .model_result_box {
+            border: 3px solid black;
+            width: 600px;
+        }
+        .feedback_box {
+            display: flex;
+            justify-content: space-around;
+            border: 3px solid black;
+            padding: 10px;
+        }
+        .feedback_textbox textarea {
+            width: 1000px;
+            height: 300px;
+            font-family: Helvetica, Arial, sans-serif;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="D:\Swinburne_Online\ROB-Xero-Starter-Branched-Test-main\Xero-Starter-Branched-Test\static\images\xero_logo.png" alt="Xero Logo">
+    </div>
+
+    <!-- LEARNING MODULE SELECTION LIST -->
+    <form method="POST">
+        <div class="module_select_box">
+            <select id="modules list" name="module_select_box">
+                <option>Select a module...</option>
+                <option value="module_1">Module 1: Overview of the Xero Platform</option>
+                <option value="module_2">Module 2: Xero Electrical</option>
+                <option value="module_3">Module 3: Changing Organisational Details</option>
+                <option value="module_4">Module 4: Chart of Accounts</option>
+                <option value="module_5">Module 5: The Xero Dashboard</option>
+                <option value="module_6">Module 6: Invoicing</option>
+                <option value="module_7">Module 7: Recording Receipts and Payments...</option>
+                <option value="moduel_8">Module 8: Cash Coding</option>
+                <option value="module_9">Module 9: Part Payments</option>
+                <option value="module_10">Module 10: Prepayments</option>
+            </select>
+           
+            <!-- <input list="modules_list" name="module_select_box">
+            <datalist id="modules_list" name="moduleselectbox">
+                <option value="Module 1: Overview of the Xero Platform">
+                <option value="Module 2: Xero Electrical">
+                <option value="Module 3: Changing Organisational Details">
+                <option value="Module 4: Chart of Accounts">
+                <option value="Module 5: The Xero Dashboard">
+                <option value="Module 6: Invoicing">
+                <option value="Module 7: Recording Receipts and Payments...">
+                <option value="Module 8: Cash Coding">
+                <option value="Module 9: Part Payments">
+                <option value="Module 10: Prepayments">
+            </datalist> -->
+            <input type="submit">
+        </div>
+    </form>
+    <br>
+{% if display == 1 %}
+<!-- RESULTS BOXES -->
+    <div class="result_boxes">
+        <div class="student_result_box">
+            <form method="POST">
+                <div class="invoice_number_search">
+                    <h2>Student Invoice No.: </h2>
+                    <input type="text" name="invoice_number_search">
+                    <input type="submit" value="Search">
+                </div>
+            </form>
+            <br>
+            <h3>
+                <u>Activity 6.1</u>
+            </h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Your Answer</th>
+                    <th>Grade</th>
+                </tr>
+                <!-- 
+                    Activity 6.1:
+                        Result 1: Quantity = 11.00
+                        Result 2: Callout Fee Discount = 20
+                        Result 3: Silver Light Fittings Amount AUD = 137.50
+                        Result 4: Callout Fee Amount AUD = 60.00
+                    Activity 6.2:
+                        Result 1: Delivery Amount AUD = 35.00
+                        Result 2: Tax Rate = No
+                        Result 3: Invoice total = 232.50
+                -->
+                <tr>
+                    <td>Light Fittings Quantity</td>
+                    <td><input type="text" id="student_result_input" name="Result_61_1_result" value="$49.99" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_1_mark" value="5" readonly></td>
+                </tr>
+                <tr>
+                    <td>Callout Fee Discount</td>
+                    <td><input type="text" id="student_result_input" name="Result_61_2_result" value="$20" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_2_mark" value="2" readonly></td>
+                </tr>
+                <tr>
+                    <td>Light Fittings Amount</td>
+                    <td><input type="text" id="student_result_input" name="Result_61_3_result" value="30" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_3_mark" value="5" readonly></td>
+                </tr>
+                <tr>
+                    <td>Callout Fee Amount</td>
+                    <td><input type="text" id="student_result_input" name="Result_61_4_result" value="$34.00" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_4_mark" value="4" readonly></td>
+                </tr>
+            </table>
+            <h3>
+                <u>Activity 6.2</u>
+            </h3>
+            <table>
+                <tr>
+                    <td>Delivery Amount</td>
+                    <td><input type="text" id="student_result_input" name="Result_62_1_result" value="$49.99" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_1_mark" value="5" readonly></td>
+                </tr>
+                <tr>
+                    <td>Tax Rate</td>
+                    <td><input type="text" id="student_result_input" name="Result_62_2_result" value="$20" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_2_mark" value="2" readonly></td>
+                </tr>
+                <tr>
+                    <td>Invoice Total</td>
+                    <td><input type="text" id="student_result_input" name="Result_62_3_result" value="30" readonly></td>
+                    <td><input type="text" id="student_mark_input" name="Result_3_mark" value="5" readonly></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>Total Marks: </th>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="model_result_box">
+            <h2>Model Result Invoice</h2>
+            <h3>
+                <u>Activity 6.1</u>
+            </h3>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Your Answer</th>
+                </tr>
+                <tr>
+                    <td>Light Fittings Quantity</td>
+                    <td><input type="text" id="model_result_input" name="Model_61_1_result" value="11" readonly></td>
+                </tr>
+                <tr>
+                    <td>Callout Fee Discount</td>
+                    <td><input type="text" id="model_result_input" name="Model_61_2_result" value="20" readonly></td>
+                </tr>
+                <tr>
+                    <td>Light Fittings Amount</td>
+                    <td><input type="text" id="model_result_input" name="Model_61_3_result" value="137.50" readonly></td>
+                </tr>
+                <tr>
+                    <td>Callout Fee Amount</td>
+                    <td><input type="text" id="model_result_input" name="Model_61_4_result" value="60.00" readonly></td>
+                </tr>
+            </table>
+            <h3>
+                <u>Activity 6.2</u>
+            </h3>
+            <table>
+                <tr>
+                    <td>Delivery Amount</td>
+                    <td><input type="text" id="model_result_input" name="Model_62_1_result" value="35.00" readonly></td>
+                </tr>
+                <tr>
+                    <td>Tax Rate</td>
+                    <td><input type="text" id="model_result_input" name="Model_62_2_result" value="No" readonly></td>
+                </tr>
+                <tr>
+                    <td>Invoice Total</td>
+                    <td><input type="text" id="model_result_input" name="Model_62_3_result" value="232.50" readonly></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>Total Marks: </th>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    <!-- FEEDBACK BOX -->
+    <div class="feedback_box">
+        <div class="feedback_textbox">
+            <textarea class="feedback_box" readonly>
+Result 1: Great job! No feedback needed.
+Result 2: This one wasn't quite right. Remember to add in 'x' and consider 'y'.
+Result 3: Great job! No feedback needed.
+Result 4: You're almost there! Double check the value you've written here.
+            </textarea>
+        </div>
+        <div class="feedback_buttons">
+            <button type="button">Edit Feedback</button>
+            <button type="button">Contact Student</button>
+        </div>
+    </div>
+</body>
+{% endif %}
+{% endblock %}
