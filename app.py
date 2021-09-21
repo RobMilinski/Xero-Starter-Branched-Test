@@ -140,6 +140,7 @@ def test():
         total_tax = getvalue(invoice, "invoices.0.total_tax", "")
         total = getvalue(invoice, "invoices.0.total", "")
 
+
         sub_title = "Invoice Requested"
 
         return render_template(
@@ -160,29 +161,80 @@ def test():
 def educator_view():
     xero_access = dict(obtain_xero_oauth2_token() or {})
 
-    if request.method == 'POST':
-        if request.form['module_select_box'] == "":
-            return render_template("educator_view.html", title="Educator View | Xero Learn")
-        elif request.form['module_select_box'] == "Module 6: Invoicing":
-            display = 1
-            return render_template("educator_view.html", title="Educator View | Xero Learn")
-    
+    # # # THIS CODE BLOCK BELOW IS REGARDING THE DROP DOWN MODULE LIST. AS FAR AS I KNOW, IT DOES NOT WORK AT THIS STAGE # # #
     # if request.method == 'POST':
-    #     xero_tenant_id = get_xero_tenant_id()
-    #     accounting_api = AccountingApi(api_client)
+    #     if request.form['module_select_box'] == "":
+    #         return render_template("educator_view.html", title="Educator View | Xero Learn")
+    #     elif request.form['module_select_box'] == "Module 6: Invoicing":
+    #         display = 1
+    #         return render_template("educator_view.html", title="Educator View | Xero Learn")
+    
+    if request.method == 'POST':
+        xero_tenant_id = get_xero_tenant_id()
+        accounting_api = AccountingApi(api_client)
 
-    #     invoice_number = int(request.form['invoice_number_search'])
+        # # # Rob, I'd love to say this works and accepts the invoice number as a search metric, but I'm not 100% sure. If it doesn't swap it our for your invoice ID metric that we know does work.
+        invoice_number = int(request.form['invoice_number_search'])
 
-    #     invoice = accounting_api.get_invoice(
-    #         xero_tenant_id,
-    #         invoice_number
-    #     )
-    #     code = serialize_model(invoice)
-    #     sub_title = "Invoice Requested" 
+        invoice = accounting_api.get_invoice(
+            xero_tenant_id,
+            invoice_number
+        )
+        # # # I built this dictionary to utilise the invoice data in a JSON format. I realise in Flask it seems to use it better in string format, hence the serialize_model() function. Just didn't want to delete this out just yet, just in case.
+        # student_invoice_results_data = {
+        #     'result_61_1_result': invoice['Invoices'][0]['LineItems'][0]['Quantity'],
+        #     'result_61_2_result': invoice['Invoices'][0]['LineItems'][1]['DiscountRate'],
+        #     'result_61_3_result': invoice['Invoices'][0]['LineItems'][0]['LineAmount'],
+        #     'result_61_4_result': invoice['Invoices'][0]['LineItems'][1]['LineAmount'],
+        #     'result_62_1_result': invoice['Invoices'][0]['LineItems'][2]['LineAmount'],
+        #     'result_62_2_result': invoice['Invoices'][0]['LineItems'][2]['TaxAmount'],
+        #     'result_62_3_result': invoice['Invoices'][0]['SubTotal'],
+        # }
 
-    #     return render_template(
-    #         "educator_view.html", title="Educator View", code=code, sub_title=sub_title
-    #     )
+        json_data = serialize_model(invoice)
+
+        # INVOICE DATA TO BE ADDED AS STUDENT ANSWERS
+        # ACTIVITY 6.1
+        # Result 1 - Light Fittings Quantity
+        result_61_1_result = getvalue(invoice, "invoices.0.lineitems.0.quantity", "")
+
+        # Result 2 - Callout Fee Discount
+        result_61_2_result = getvalue(invoice, "invoices.0.lineitems.1.discountrate", "")
+
+        # Result 3 - Light Fittings Amount (AUD)
+        result_61_3_result = getvalue(invoice, "invoices.0.lineitems.0.lineamount", "")
+
+        # Result 4 - Callout Fee Amount (AUD)
+        result_61_4_result = getvalue(invoice, "invoices.0.lineitems.1.lineamount", "")
+
+
+        # ACTIVITY 6.2
+        # Result 1 - Delivery Amount (AUD)
+        result_62_1_result = getvalue(invoice, "invoices.0.lineitems.2.lineamount", "")
+
+        # Result 2 - Tax Amount
+        result_62_2_result = getvalue(invoice, "invoices.0.lineitems.2.taxamount", "")
+
+        # Result 3 - Invoice Total (AUD)
+        result_62_3_result = getvalue(invoice, "invoices.0.subtotal", "")
+
+
+
+        sub_title = "Invoice Requested" 
+
+        return render_template(
+            "educator_view.html", 
+            title="Educator View", 
+            code=json_data, 
+            sub_title=sub_title, 
+            result_61_1_result=result_61_1_result,
+            result_61_2_result=result_61_2_result,
+            result_61_3_result=result_61_3_result,
+            result_61_4_result=result_61_4_result,
+            result_62_1_result=result_62_1_result,
+            result_62_2_result=result_62_2_result,
+            result_62_3_result=result_62_3_result,
+        )
     return render_template("educator_view.html", title="Educator View | Xero Learn")
 
 @app.route("/login")
