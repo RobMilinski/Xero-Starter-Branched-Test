@@ -219,6 +219,68 @@ def educator_view():
         result_62_3_result = getvalue(invoice, "invoices.0.subtotal", "")
 
 
+        # GRADES
+        # # # May need to change model answer inputs to textareas to increase possibility of it actually reading it.
+        if result_61_1_result == request.form['model_61_1_result']:
+            result_61_1_mark = 5
+        else:
+            result_61_1_mark = 4, 3, 2, 1   # Can flesh these out
+        
+        if result_61_2_result == request.form['model_61_2_result']:
+            result_61_2_mark = 5
+        else:
+            result_61_2_mark = 4, 3, 2, 1   # Can flesh these out
+        
+        if result_61_3_result == request.form['model_61_3_result']:
+            result_61_3_mark = 5
+        else:
+            result_61_3_mark = 4, 3, 2, 1   # Can flesh these out
+
+        if result_61_4_result == request.form['model_61_4_result']:
+            result_61_4_mark = 5
+        else:
+            result_61_4_mark = 4, 3, 2, 1   # Can flesh these out
+        
+        if result_62_1_result == request.form['model_62_1_result']:
+            result_62_1_mark = 5
+        else:
+            result_62_1_mark = 4, 3, 2, 1   # Can flesh these out
+        
+        if result_62_2_result == request.form['model_62_2_result']:
+            result_62_2_mark = 5
+        else:
+            result_62_2_mark = 4, 3, 2, 1   # Can flesh these out
+        
+        if result_62_3_result == request.form['model_62_3_result']:
+            result_62_3_mark = 5
+        else:
+            result_62_3_mark = 4, 3, 2, 1   # Can flesh these out
+
+       
+        # Possible dictionary format for linking grades to feedback?
+        auto_feedback_dict = {
+            "5": "Awesome work! You have inputted all of the correct data and received an accurate result.",
+            "4": "Very close, maybe double check your answer here. Be sure to check each value as one wrong input can disrupt the final calculation.",
+            "3": "A few values seem to be wrong here. We suggest re-reading the tasks and make the right values are in the right boxes.",
+            "2": "One or two values are correct, but you might need ...",
+            "1": "This answer is wrong. Please re-read the question, and start over to ensure you're inputting the correct values."
+
+        }
+        
+        result_61_1_feedback = auto_feedback_dict[str(result_61_1_mark)]
+
+        result_61_2_feedback = auto_feedback_dict[str(result_61_2_mark)]
+
+        result_61_3_feedback = auto_feedback_dict[str(result_61_3_mark)]
+
+        result_61_4_feedback = auto_feedback_dict[str(result_61_4_mark)]
+
+        result_62_1_feedback = auto_feedback_dict[str(result_62_1_mark)]
+
+        result_62_2_feedback = auto_feedback_dict[str(result_62_2_mark)]
+
+        result_62_3_feedback = auto_feedback_dict[str(result_62_3_mark)]
+
 
         sub_title = "Invoice Requested" 
 
