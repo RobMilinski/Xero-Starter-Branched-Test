@@ -3,13 +3,10 @@ import os
 from functools import wraps
 from io import BytesIO
 from logging.config import dictConfig
-from urllib.parse import urlencode
-import datetime
 
-from flask import Flask, url_for, render_template, session, redirect, json, send_file, request
+from flask import Flask, url_for, render_template, session, redirect, json, send_file
 from flask_oauthlib.contrib.client import OAuth, OAuth2Application
 from flask_session import Session
-from xero_python import accounting
 from xero_python.accounting import AccountingApi, ContactPerson, Contact, Contacts
 from xero_python.api_client import ApiClient, serialize
 from xero_python.api_client.configuration import Configuration
@@ -106,7 +103,7 @@ def index():
 # utilising single invoice search method = "get_invoice"
 @app.route("/", methods=['GET', 'POST'])
 @xero_token_required
-def test():
+def student_view():
     xero_access = dict(obtain_xero_oauth2_token() or {})
 
     if request.method == 'POST':
@@ -125,39 +122,119 @@ def test():
         )
         json = serialize_model(invoice)
 
-        amount_due = getvalue(invoice, "invoices.0.amount_due", "")
-        amount_paid = getvalue(invoice, "invoices.0.amount_paid", "")
-        contact_name_first = getvalue(invoice, "invoices.0.contact.first_name", "")
-        contact_email = getvalue(invoice, "invoices.0.contact.email_address", "")
-        contact_name_last = getvalue(invoice, "invoices.0.contact.last_name", "")
-        due_date = getvalue(invoice, "invoices.0.due_date", "")
-        paid_date = getvalue(invoice, "invoices.0.fully_paid_on_date", "")
-        invoice_id = getvalue(invoice, "invoices.0.invoice_id", "")
-        invoice_number = getvalue(invoice, "invoices.0.invoice_number", "")
-        line_item_0_description = getvalue(invoice, "invoices.0.line_items.0.description", "")
-        line_item_0_line_amount = getvalue(invoice, "invoices.0.line_items.0.line_amount", "")
-        line_item_0_quantity = getvalue(invoice, "invoices.0.line_items.0.quantity", "")
-        line_item_0_unit_amount = getvalue(invoice, "invoices.0.line_items.0.unit_amount", "")
-        status = getvalue(invoice, "invoices.0.status", "")
-        sub_total = getvalue(invoice, "invoices.0.sub_total", "")
-        total_tax = getvalue(invoice, "invoices.0.total_tax", "")
-        total = getvalue(invoice, "invoices.0.total", "")
+        # ACTIVITY 6.1
+        result_61_1_result = getvalue(invoice, "invoices.0.line_items.0.quantity", "")
+        result_61_2_result = getvalue(invoice, "invoices.0.line_items.1.discount_rate", "")
+        result_61_3_result = getvalue(invoice, "invoices.0.line_items.0.line_amount", "")
+        result_61_4_result = getvalue(invoice, "invoices.0.line_items.1.line_amount", "")
 
+        # ACTIVITY 6.2
+        result_62_1_result = getvalue(invoice, "invoices.0.line_items.2.line_amount", "")
+        result_62_2_result = getvalue(invoice, "invoices.0.line_items.2.tax_amount", "")
+        result_62_3_result = getvalue(invoice, "invoices.0.sub_total", "")
 
-        sub_title = "Invoice Requested"
+        # GRADES
+        if result_61_1_result == float('11'):
+            result_61_1_mark = 5
+        else:
+            result_61_1_mark = 2
+        
+        if result_61_2_result == float('20'):
+            result_61_2_mark = 5
+        else:
+            result_61_2_mark = 4
+        
+        if result_61_3_result == float('137.50'):
+            result_61_3_mark = 5
+        else:
+            result_61_3_mark = 4
+
+        if result_61_4_result == float('60'):
+            result_61_4_mark = 5
+        else:
+            result_61_4_mark = 5
+        
+        if result_62_1_result == float('35'):
+            result_62_1_mark = 5
+        else:
+            result_62_1_mark = 3
+        
+        if result_62_2_result == float('0.00'):
+            result_62_2_mark = 5
+        else:
+            result_62_2_mark = 1
+        
+        if result_62_3_result == float('232.5'):
+            result_62_3_mark = 5
+        else:
+            result_62_3_mark = 2
+       
+        # Grades and Feedback Dictionary
+        auto_feedback_dict = {
+            "5": "Awesome work! You have inputted all of the correct data and received an accurate result.",
+            "4": "Very close, maybe double check your answer here. Be sure to check each value as one wrong input can disrupt the final calculation.",
+            "3": "A few values seem to be wrong here. We suggest re-reading the tasks and make the right values are in the right boxes.",
+            "2": "One or two values are correct, but you might need ...",
+            "1": "This answer is wrong. Please re-read the question, and start over to ensure you're inputting the correct values."
+        }
+        
+        result_61_1_feedback = auto_feedback_dict[str(result_61_1_mark)]
+        result_61_2_feedback = auto_feedback_dict[str(result_61_2_mark)]
+        result_61_3_feedback = auto_feedback_dict[str(result_61_3_mark)]
+        result_61_4_feedback = auto_feedback_dict[str(result_61_4_mark)]
+        result_62_1_feedback = auto_feedback_dict[str(result_62_1_mark)]
+        result_62_2_feedback = auto_feedback_dict[str(result_62_2_mark)]
+        result_62_3_feedback = auto_feedback_dict[str(result_62_3_mark)]
+
+        total_marks = int(result_61_1_mark + result_61_2_mark + result_61_3_mark + result_61_4_mark
+                        + result_62_1_mark + result_62_2_mark + result_62_3_mark)
+
+        # amount_due = getvalue(invoice, "invoices.0.amount_due", "")
+        # amount_paid = getvalue(invoice, "invoices.0.amount_paid", "")
+        # contact_name_first = getvalue(invoice, "invoices.0.contact.first_name", "")
+        # contact_email = getvalue(invoice, "invoices.0.contact.email_address", "")
+        # contact_name_last = getvalue(invoice, "invoices.0.contact.last_name", "")
+        # due_date = getvalue(invoice, "invoices.0.due_date", "")
+        # paid_date = getvalue(invoice, "invoices.0.fully_paid_on_date", "")
+        # invoice_id = getvalue(invoice, "invoices.0.invoice_id", "")
+        # invoice_number = getvalue(invoice, "invoices.0.invoice_number", "")
+        # line_item_0_description = getvalue(invoice, "invoices.0.line_items.0.description", "")
+        # line_item_0_line_amount = getvalue(invoice, "invoices.0.line_items.0.line_amount", "")
+        # line_item_0_quantity = getvalue(invoice, "invoices.0.line_items.0.quantity", "")
+        # line_item_0_unit_amount = getvalue(invoice, "invoices.0.line_items.0.unit_amount", "")
+        # status = getvalue(invoice, "invoices.0.status", "")
+        # sub_total = getvalue(invoice, "invoices.0.sub_total", "")
+        # total_tax = getvalue(invoice, "invoices.0.total_tax", "")
+        # total = getvalue(invoice, "invoices.0.total", "")
 
         return render_template(
-            "invoice.html", title="Home | POST Page", code=json, sub_title=sub_title,
-            amount_due=amount_due, amount_paid=amount_paid, 
-            contact_name_first=contact_name_first, contact_email=contact_email, contact_name_last=contact_name_last, 
-            due_date=due_date, paid_date=paid_date, 
-            invoice_id=invoice_id, invoice_number=invoice_number,
-            line_item_0_description=line_item_0_description, line_item_0_line_amount=line_item_0_line_amount, line_item_0_quantity=line_item_0_quantity, line_item_0_unit_amount=line_item_0_unit_amount,
-            status=status, sub_total=sub_total, total_tax=total_tax, total=total,
+            "student_view.html", title="Home | POST Page", 
+            result_61_1_result=result_61_1_result,
+            result_61_2_result=result_61_2_result,
+            result_61_3_result=result_61_3_result,
+            result_61_4_result=result_61_4_result,
+            result_62_1_result=result_62_1_result,
+            result_62_2_result=result_62_2_result,
+            result_62_3_result=result_62_3_result,
+            result_61_1_mark=result_61_1_mark,
+            result_61_2_mark=result_61_2_mark,
+            result_61_3_mark=result_61_3_mark,
+            result_61_4_mark=result_61_4_mark,
+            result_62_1_mark=result_62_1_mark,
+            result_62_2_mark=result_62_2_mark,
+            result_62_3_mark=result_62_3_mark,
+            result_61_1_feedback=result_61_1_feedback,
+            result_61_2_feedback=result_61_2_feedback,
+            result_61_3_feedback=result_61_3_feedback,
+            result_61_4_feedback=result_61_4_feedback,
+            result_62_1_feedback=result_62_1_feedback,
+            result_62_2_feedback=result_62_2_feedback,
+            result_62_3_feedback=result_62_3_feedback,
+            total_marks=total_marks,
         )
         
     #if page called from navbar, initial open
-    return render_template("test.html", title="Home | GET Page")
+    return render_template("student_view.html", title="Home | GET Page")
 
 @app.route("/educator_view", methods=['GET', 'POST'])
 @xero_token_required
@@ -176,60 +253,94 @@ def educator_view():
         xero_tenant_id = get_xero_tenant_id()
         accounting_api = AccountingApi(api_client)
 
-        # # # Rob, I'd love to say this works and accepts the invoice number as a search metric, but I'm not 100% sure. If it doesn't swap it our for your invoice ID metric that we know does work.
-        invoice_number = int(request.form['invoice_number_search'])
+        invoice_number = request.form['invoice_number_search']
 
         invoice = accounting_api.get_invoice(
             xero_tenant_id,
             invoice_number
         )
-        # # # I built this dictionary to utilise the invoice data in a JSON format. I realise in Flask it seems to use it better in string format, hence the serialize_model() function. Just didn't want to delete this out just yet, just in case.
-        # student_invoice_results_data = {
-        #     'result_61_1_result': invoice['Invoices'][0]['LineItems'][0]['Quantity'],
-        #     'result_61_2_result': invoice['Invoices'][0]['LineItems'][1]['DiscountRate'],
-        #     'result_61_3_result': invoice['Invoices'][0]['LineItems'][0]['LineAmount'],
-        #     'result_61_4_result': invoice['Invoices'][0]['LineItems'][1]['LineAmount'],
-        #     'result_62_1_result': invoice['Invoices'][0]['LineItems'][2]['LineAmount'],
-        #     'result_62_2_result': invoice['Invoices'][0]['LineItems'][2]['TaxAmount'],
-        #     'result_62_3_result': invoice['Invoices'][0]['SubTotal'],
-        # }
-
         json_data = serialize_model(invoice)
 
         # INVOICE DATA TO BE ADDED AS STUDENT ANSWERS
         # ACTIVITY 6.1
         # Result 1 - Light Fittings Quantity
-        result_61_1_result = getvalue(invoice, "invoices.0.lineitems.0.quantity", "")
-
+        result_61_1_result = getvalue(invoice, "invoices.0.line_items.0.quantity", "")
         # Result 2 - Callout Fee Discount
-        result_61_2_result = getvalue(invoice, "invoices.0.lineitems.1.discountrate", "")
-
+        result_61_2_result = getvalue(invoice, "invoices.0.line_items.1.discount_rate", "")
         # Result 3 - Light Fittings Amount (AUD)
-        result_61_3_result = getvalue(invoice, "invoices.0.lineitems.0.lineamount", "")
-
+        result_61_3_result = getvalue(invoice, "invoices.0.line_items.0.line_amount", "")
         # Result 4 - Callout Fee Amount (AUD)
-        result_61_4_result = getvalue(invoice, "invoices.0.lineitems.1.lineamount", "")
-
+        result_61_4_result = getvalue(invoice, "invoices.0.line_items.1.line_amount", "")
 
         # ACTIVITY 6.2
         # Result 1 - Delivery Amount (AUD)
-        result_62_1_result = getvalue(invoice, "invoices.0.lineitems.2.lineamount", "")
-
+        result_62_1_result = getvalue(invoice, "invoices.0.line_items.2.line_amount", "")
         # Result 2 - Tax Amount
-        result_62_2_result = getvalue(invoice, "invoices.0.lineitems.2.taxamount", "")
-
+        result_62_2_result = getvalue(invoice, "invoices.0.line_items.2.tax_amount", "")
         # Result 3 - Invoice Total (AUD)
-        result_62_3_result = getvalue(invoice, "invoices.0.subtotal", "")
+        result_62_3_result = getvalue(invoice, "invoices.0.sub_total", "")
 
+        # GRADES
+        # can flesh out options for lesser marks, i.e. 3,2,1
+        if result_61_1_result == float('11'):
+            result_61_1_mark = 5
+        else:
+            result_61_1_mark = 2
+        
+        if result_61_2_result == float('20'):
+            result_61_2_mark = 5
+        else:
+            result_61_2_mark = 4
+        
+        if result_61_3_result == float('137.50'):
+            result_61_3_mark = 5
+        else:
+            result_61_3_mark = 4
 
+        if result_61_4_result == float('60'):
+            result_61_4_mark = 5
+        else:
+            result_61_4_mark = 5
+        
+        if result_62_1_result == float('35'):
+            result_62_1_mark = 5
+        else:
+            result_62_1_mark = 3
+        
+        if result_62_2_result == float('0.00'):
+            result_62_2_mark = 5
+        else:
+            result_62_2_mark = 1
+        
+        if result_62_3_result == float('232.5'):
+            result_62_3_mark = 5
+        else:
+            result_62_3_mark = 2
 
-        sub_title = "Invoice Requested" 
+       
+        # Possible dictionary format for linking grades to feedback?
+        auto_feedback_dict = {
+            "5": "Awesome work! You have inputted all of the correct data and received an accurate result.",
+            "4": "Very close, maybe double check your answer here. Be sure to check each value as one wrong input can disrupt the final calculation.",
+            "3": "A few values seem to be wrong here. We suggest re-reading the tasks and make the right values are in the right boxes.",
+            "2": "One or two values are correct, but you might need ...",
+            "1": "This answer is wrong. Please re-read the question, and start over to ensure you're inputting the correct values."
+        }
+        
+        result_61_1_feedback = auto_feedback_dict[str(result_61_1_mark)]
+        result_61_2_feedback = auto_feedback_dict[str(result_61_2_mark)]
+        result_61_3_feedback = auto_feedback_dict[str(result_61_3_mark)]
+        result_61_4_feedback = auto_feedback_dict[str(result_61_4_mark)]
+        result_62_1_feedback = auto_feedback_dict[str(result_62_1_mark)]
+        result_62_2_feedback = auto_feedback_dict[str(result_62_2_mark)]
+        result_62_3_feedback = auto_feedback_dict[str(result_62_3_mark)]
+
+        total_marks = int(result_61_1_mark + result_61_2_mark + result_61_3_mark + result_61_4_mark
+                        + result_62_1_mark + result_62_2_mark + result_62_3_mark)
 
         return render_template(
             "educator_view.html", 
             title="Educator View", 
-            code=json_data, 
-            sub_title=sub_title, 
             result_61_1_result=result_61_1_result,
             result_61_2_result=result_61_2_result,
             result_61_3_result=result_61_3_result,
@@ -237,6 +348,21 @@ def educator_view():
             result_62_1_result=result_62_1_result,
             result_62_2_result=result_62_2_result,
             result_62_3_result=result_62_3_result,
+            result_61_1_mark=result_61_1_mark,
+            result_61_2_mark=result_61_2_mark,
+            result_61_3_mark=result_61_3_mark,
+            result_61_4_mark=result_61_4_mark,
+            result_62_1_mark=result_62_1_mark,
+            result_62_2_mark=result_62_2_mark,
+            result_62_3_mark=result_62_3_mark,
+            result_61_1_feedback=result_61_1_feedback,
+            result_61_2_feedback=result_61_2_feedback,
+            result_61_3_feedback=result_61_3_feedback,
+            result_61_4_feedback=result_61_4_feedback,
+            result_62_1_feedback=result_62_1_feedback,
+            result_62_2_feedback=result_62_2_feedback,
+            result_62_3_feedback=result_62_3_feedback,
+            total_marks=total_marks
         )
     return render_template("educator_view.html", title="Educator View | Xero Learn")
 
